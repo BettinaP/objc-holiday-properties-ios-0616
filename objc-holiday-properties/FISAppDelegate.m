@@ -11,30 +11,47 @@
 
 - (NSArray *)holidaysInSeason:(NSString *)season {
     
-    return nil;
+    return [self.database[season] allKeys];
 }
 
 - (NSArray *)suppliesInHoliday:(NSString *)holiday
                       inSeason:(NSString *)season {
     
-    return nil;
+    NSMutableArray *supplies =[self.database[season][holiday] mutableCopy];
+    
+    return supplies;
 }
 
 - (BOOL)holiday:(NSString* )holiday
      isInSeason:(NSString *)season {
     
-    return nil;
+    BOOL holidayIsInSeason = NO;
+    
+    NSArray *holidays =[self.database[season] allKeys];
+    
+    if([holidays containsObject:holiday]){
+        return YES;}
+    
+    return holidayIsInSeason;
 }
 
 - (BOOL)supply:(NSString *)supply
    isInHoliday:(NSString *)holiday
       inSeason:(NSString *)season {
     
-    return nil;
+    BOOL supplyIsInHoliday = NO;
+    
+    if ([self.database[season][holiday] containsObject:supply]){
+        return YES;
+    };
+    
+    return supplyIsInHoliday;
 }
 
 - (void)addHoliday:(NSString *)holiday
           toSeason:(NSString *)season {
+    
+    self.database[season][holiday]=[[NSMutableArray alloc]init];
     
     // no return
 }
@@ -42,6 +59,8 @@
 - (void)addSupply:(NSString *)supply
         toHoliday:(NSString *)holiday
          inSeason:(NSString *)season {
+    
+    [self.database[season][holiday] addObject:supply];
     
     // no return
 }
